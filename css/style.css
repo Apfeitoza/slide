@@ -42,3 +42,7 @@ img {
   opacity: 1;
   transform: scale(1);
 }
+
+.next, .prev{
+  margin-top: 20px;  
+}

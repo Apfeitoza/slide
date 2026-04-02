@@ -85,8 +85,7 @@ export default class Slide {
   }
 
   slidesIndexNav(index) {
-    const last = this.slideArray.length - 1;
-    console.log(last);
+    const last = this.slideArray.length - 1;   
     this.index = {
       previous: index ? index - 1 : undefined,
       active: index,
@@ -99,7 +98,6 @@ export default class Slide {
     this.moveSlide(activeSlide.position);
     this.slidesIndexNav(index);
     this.dist.finalPosition = activeSlide.position;
-    console.log(this.index);
     this.changeActiveClass();
   }
 
@@ -138,6 +136,8 @@ export default class Slide {
     this.onMove = this.onMove.bind(this);
     this.onEnd = this.onEnd.bind(this);
     this.onResize = debounce(this.onResize.bind(this), 200);
+    this.activePrevSlide = this.activePrevSlide.bind(this);
+    this.activeNextSlide = this.activeNextSlide.bind(this);
   }
 
   init() {
@@ -146,6 +146,20 @@ export default class Slide {
     this.slidesConfig();
     this.transition(true);
     this.addResizeEvent();
+    this.changeSlide(0);
     return this;
+  }
+}
+
+export class SlideNav extends Slide {
+  addArrow(prev, next) {
+    this.prevElement = document.querySelector(prev);
+    this.nextElement = document.querySelector(next);
+    this.addArrowEvent();
+  }
+
+  addArrowEvent() {
+    this.prevElement.addEventListener("click", this.activePrevSlide);
+    this.nextElement.addEventListener("click", this.activeNextSlide);
   }
 }
